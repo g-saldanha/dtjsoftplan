@@ -31,3 +31,10 @@ build/
 
 ### VS Code ###
 .vscode/
+/.gradle/
+/.mvn/wrapper/
+/db/
+/mvnw
+/mvnw.cmd
+/pessoa.mv.db
+/srcpessoa.mv.db
