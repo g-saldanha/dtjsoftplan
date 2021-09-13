@@ -42,7 +42,7 @@ public class UsuarioService {
 	public LoginDTO logar(final LoginDTO loginDTO) {
 		try {
 			final UserDetails userDetails = this.userDetailsService.loadUserByUsername(loginDTO.getLogin());
-			if (userDetails.isEnabled()) {
+			if (userDetails.isEnabled() && new BCryptPasswordEncoder().matches(loginDTO.getSenha(), userDetails.getPassword())) {
 				loginDTO.setSenha(userDetails.getPassword());
 				return loginDTO;
 			}

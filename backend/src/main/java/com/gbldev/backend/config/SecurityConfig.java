@@ -1,6 +1,7 @@
 package com.gbldev.backend.config;
 
 import java.util.Arrays;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -25,7 +26,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(final HttpSecurity http) throws Exception {
-		http.httpBasic().and().authorizeRequests()
+		http.httpBasic()
+				.and().csrf().disable()
+				.headers().frameOptions().disable()
+				.and().cors()
+				.and().authorizeRequests()
 				.antMatchers("/h2-console/**").permitAll()
 				.antMatchers("/").permitAll()
 				.antMatchers("/source").permitAll()
@@ -35,8 +40,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/login")
 				.permitAll().antMatchers("/logout")
 				.permitAll()
-				.and().csrf().disable().headers().frameOptions().disable()
-				.and().cors()
 				.and().logout()
 				.and().formLogin()
 				.and().rememberMe();
@@ -56,8 +59,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		final CorsConfiguration config = new CorsConfiguration();
 
 		config.setAllowCredentials(true);
-		config.setAllowedOriginPatterns(Arrays.asList("*"));
-		config.setAllowedHeaders(Arrays.asList("Origin", "Content-Type", "Accept"));
+		config.setAllowedOriginPatterns(List.of("*"));
+		config.setAllowedHeaders(List.of("*"));
 		config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "OPTIONS", "DELETE", "PATCH"));
 		source.registerCorsConfiguration("/**", config);
 		return new CorsFilter(source);

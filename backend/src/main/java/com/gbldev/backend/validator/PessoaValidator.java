@@ -1,7 +1,6 @@
 package com.gbldev.backend.validator;
 
 import java.text.MessageFormat;
-import java.util.Calendar;
 import java.util.Date;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
@@ -29,13 +28,11 @@ public class PessoaValidator {
 	}
 
 	private static void validarData(final Date dataNascimento) throws PessoaException {
-		final Calendar instance = Calendar.getInstance();
-		instance.add(Calendar.YEAR, -10);
 		if (dataNascimento == null) {
 			throw new PessoaException(HttpStatus.NOT_ACCEPTABLE, PessoaExceptionMessages.DATA_NASCIMENTO_OBRIGATORIA);
 		}
 
-		if (dataNascimento.after(instance.getTime())) {
+		if (dataNascimento.after(new Date())) {
 			throw new PessoaException(HttpStatus.NOT_ACCEPTABLE, PessoaExceptionMessages.DATA_NASCIMENTO_INVALIDA);
 		}
 	}

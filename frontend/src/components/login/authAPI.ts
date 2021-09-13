@@ -5,7 +5,8 @@ import { loginUrl, logoutUrl } from '../../api/Urls';
 
 export async function fetchLogin(auth: IAuth) {
   try {
-    return await axios.post(loginUrl, auth);
+    await axios.post(loginUrl, auth);
+    return { data: auth };
   } catch (e) {
     const { response }: any = e;
     const message = response.data.split('"');

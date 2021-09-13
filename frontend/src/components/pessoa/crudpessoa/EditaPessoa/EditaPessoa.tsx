@@ -1,28 +1,26 @@
 import React, { useState } from 'react';
 import FormPessoa from '../form/FormPessoa';
-import { adicionaPessoa } from '../../listapessoas/listaPessoasAPI';
 import { useAppSelector } from '../../../../app/hooks';
+import { selectPessoa } from '../../reducer/pessoaSlice';
+import { editaPessoa } from '../../listapessoas/listaPessoasAPI';
 import { selectLogin } from '../../../login/loginSlice';
 import validateErrors from '../form/validator/validateErrors';
 
-export default function Adicionapessoa() {
-  const selector = useAppSelector(selectLogin);
+export default function EditaPessoa() {
+  const selector = useAppSelector(selectPessoa);
+  const authSelector = useAppSelector(selectLogin);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [pessoa, setPessoa] = useState({
-    nome: '',
-    sexo: '',
-    email: '',
-    dataNascimento: '',
-    naturalidade: '',
-    nacionalidade: '',
-    cpf: '',
-  });
+
+  const [pessoa, setPessoa] = useState(selector.pessoaEditar);
+  if (!pessoa) {
+    return null;
+  }
   const handleChange = (name: string, value: string) => setPessoa({ ...pessoa, [name]: value });
   const handleSubmit = () => {
     setIsLoading(true);
-    adicionaPessoa(selector, pessoa)
+    editaPessoa(authSelector, pessoa)
       .then((value) => {
         setSuccess(value);
         setIsLoading(false);
@@ -37,7 +35,7 @@ export default function Adicionapessoa() {
       pessoa={pessoa}
       onChange={handleChange}
       onSubmit={handleSubmit}
-      isEdit={false}
+      isEdit
       errors={error}
       success={success}
       isSubmitting={isLoading}

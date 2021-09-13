@@ -7,11 +7,13 @@ import { selectPessoa, setStep, Step } from './components/pessoa/reducer/pessoaS
 import ListaPessoas from './components/pessoa/listapessoas/ListaPessoas';
 import Adicionapessoa from './components/pessoa/crudpessoa/AdicionaPessoa/AdicionaPessoa';
 import { Breadcrumb } from 'semantic-ui-react';
+import EditaPessoa from './components/pessoa/crudpessoa/EditaPessoa/EditaPessoa';
 
 export default function App() {
   const auth = useAppSelector(selectLogin);
   const pessoaRedux = useAppSelector(selectPessoa);
   const dispatch = useAppDispatch();
+  const onListar = () => dispatch(setStep(Step.LISTAR));
 
   useEffect(() => {
     if (auth.login && auth.senha) {
@@ -24,7 +26,7 @@ export default function App() {
       <div className='App'>
         <header className='App-header'>
           <Breadcrumb size='massive'>
-            <Breadcrumb.Section>Login</Breadcrumb.Section>
+            <Breadcrumb.Section active>Login</Breadcrumb.Section>
           </Breadcrumb>
           <Login />
         </header>
@@ -37,11 +39,7 @@ export default function App() {
       <div className='App'>
         <header className='App-header'>
           <Breadcrumb size='massive'>
-            <Breadcrumb.Section link>Listar</Breadcrumb.Section>
-            <Breadcrumb.Divider icon='right chevron' />
-            <Breadcrumb.Section link>Registration</Breadcrumb.Section>
-            <Breadcrumb.Divider icon='right chevron' />
-            <Breadcrumb.Section active>Personal Information</Breadcrumb.Section>
+            <Breadcrumb.Section active>Listar</Breadcrumb.Section>
           </Breadcrumb>
           <ListaPessoas />
         </header>
@@ -54,9 +52,11 @@ export default function App() {
       <div className='App'>
         <header className='App-header'>
           <Breadcrumb size='massive'>
-            <Breadcrumb.Section link>Listar</Breadcrumb.Section>
+            <Breadcrumb.Section link onClick={onListar}>
+              Listar
+            </Breadcrumb.Section>
             <Breadcrumb.Divider icon='right chevron' />
-            <Breadcrumb.Section link>Adicionar Pessoa</Breadcrumb.Section>
+            <Breadcrumb.Section active>Adicionar Pessoa</Breadcrumb.Section>
           </Breadcrumb>
           <Adicionapessoa />
         </header>
@@ -69,11 +69,13 @@ export default function App() {
       <div className='App'>
         <header className='App-header'>
           <Breadcrumb size='massive'>
-            <Breadcrumb.Section link>Listar</Breadcrumb.Section>
+            <Breadcrumb.Section link onClick={onListar}>
+              Listar
+            </Breadcrumb.Section>
             <Breadcrumb.Divider icon='right chevron' />
-            <Breadcrumb.Section link>Editar Pessoa</Breadcrumb.Section>
+            <Breadcrumb.Section active>Editar Pessoa</Breadcrumb.Section>
           </Breadcrumb>
-          <ListaPessoas />
+          <EditaPessoa />
         </header>
       </div>
     );
@@ -83,7 +85,7 @@ export default function App() {
     <div className='App'>
       <header className='App-header'>
         <Breadcrumb size='massive'>
-          <Breadcrumb.Section>Login</Breadcrumb.Section>
+          <Breadcrumb.Section active>Login</Breadcrumb.Section>
         </Breadcrumb>
         <Login />
       </header>

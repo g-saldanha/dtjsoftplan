@@ -4,13 +4,34 @@ import { PessoaDTO } from '../../PessoaDTO';
 import { nacionaliadeOptions, sexoOptions } from './options';
 import { InputOnChangeData } from 'semantic-ui-react/dist/commonjs/elements/Input/Input';
 import { DropdownProps } from 'semantic-ui-react/dist/commonjs/modules/Dropdown/Dropdown';
+import { FormProps } from 'semantic-ui-react/dist/commonjs/collections/Form/Form';
+import {
+  CPF_INVALIDO,
+  DATA_NASCIMENTO_INVALIDA,
+  DATA_NASCIMENTO_OBRIGATORIA,
+  EMAIL_INVALIDO,
+  NOME_OBRIGATORIO,
+} from './validator/validateErrors';
 
-export type AdicionapessoaProps = {
+export type FormPessoaProps = {
   pessoa: PessoaDTO;
   onChange: Function;
+  onSubmit: (event: React.FormEvent<HTMLFormElement>, data: FormProps) => void;
+  isEdit: boolean;
+  errors: string;
+  success: string;
+  isSubmitting: boolean;
 };
 
-export default function FormPessoa({ pessoa, onChange }: AdicionapessoaProps) {
+export default function FormPessoa({
+  pessoa,
+  onChange,
+  onSubmit,
+  isEdit,
+  errors,
+  success,
+  isSubmitting,
+}: FormPessoaProps) {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>, data: InputOnChangeData) =>
     onChange(data.name, data.value);
 
@@ -18,13 +39,14 @@ export default function FormPessoa({ pessoa, onChange }: AdicionapessoaProps) {
     onChange(data.name, data.value);
   };
 
+  const addEdit = isEdit ? 'editado' : 'adicionado';
   return (
-    <Container fluid>
+    <Container>
       <Segment inverted padded='very'>
-        <Form inverted success>
+        <Form inverted success onSubmit={onSubmit} loading={isSubmitting}>
           <Form.Group widths='equal'>
             <Form.Input
-              error='Campo Obrigatório'
+              error={errors === NOME_OBRIGATORIO ? errors : null}
               fluid
               type='text'
               name='nome'
@@ -36,10 +58,11 @@ export default function FormPessoa({ pessoa, onChange }: AdicionapessoaProps) {
             />
             <Form.Input
               fluid
-              error='Campo Obrigatório'
+              error={errors === CPF_INVALIDO ? errors : null}
               type='number'
               label='CPF'
               name='cpf'
+              disabled={isEdit}
               value={pessoa.cpf}
               placeholder='Digite o cpf'
               required
@@ -47,7 +70,7 @@ export default function FormPessoa({ pessoa, onChange }: AdicionapessoaProps) {
             />
           </Form.Group>
           <Form.Input
-            error='Email inválido'
+            error={errors === EMAIL_INVALIDO ? errors : null}
             fluid
             type='email'
             label='Email'
@@ -58,7 +81,11 @@ export default function FormPessoa({ pessoa, onChange }: AdicionapessoaProps) {
           />
           <Form.Group widths='equal'>
             <Form.Input
-              error='Data inválida, certifique-se que data não é maior que hoje'
+              error={
+                [DATA_NASCIMENTO_INVALIDA, DATA_NASCIMENTO_OBRIGATORIA].includes(errors)
+                  ? errors
+                  : null
+              }
               fluid
               label='Data de Nascimento'
               type='date'
@@ -66,6 +93,7 @@ export default function FormPessoa({ pessoa, onChange }: AdicionapessoaProps) {
               value={pessoa.dataNascimento}
               placeholder='Escolha a data de nascimento'
               onChange={handleChange}
+              required
             />
             <Form.Select
               fluid
@@ -98,14 +126,17 @@ export default function FormPessoa({ pessoa, onChange }: AdicionapessoaProps) {
               onChange={handleChange}
             />
           </Form.Group>
-          <Button type='submit' fluid size='massive' color='green'>
-            Cadastrar
+          <Button type='submit' fluid size='massive' color='green' loading={isSubmitting}>
+            {isEdit ? 'Atualizar' : 'Cadastrar'}
           </Button>
-          <Message
-            success
-            header='Usuário adicionado com sucesso'
-            content={`Adicionada com sucesso`}
-          />
+          {success && (
+            <Message
+              success
+              header={'Usuário ' + addEdit + ' com sucesso'}
+              content={addEdit + ' com sucesso'}
+            />
+          )}
+          {errors && <Message color='red' header={'Erro ao concretizar acão'} content={errors} />}
         </Form>
       </Segment>
     </Container>
