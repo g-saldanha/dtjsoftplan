@@ -6,19 +6,11 @@ import lombok.Data;
 
 @Data
 @Builder
-@Schema(description = "DTO que representa as informações referentes ao usuário.")
-public class UsuarioDTO {
-
-	@Schema(name = "nome", description = "Nome do Usuário", example = "Admin", required = true)
-	private String nome;
-
+@Schema(description = "DTO que representa as informações de login do usuário.")
+public class LoginDTO {
 	@Schema(name = "login", description = "Login do Usuário", example = "joaosilva", required = true)
 	private String login;
 
 	@Schema(name = "senha", description = "Senha do Usuário", example = "asenha", required = true)
 	private String senha;
-
-	@Schema(name = "email", description = "Email do Usuário", example = "joaosilva@johndoe.com")
-	private String email;
-
 }

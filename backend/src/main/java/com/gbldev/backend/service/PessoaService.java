@@ -4,10 +4,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Service;
-
 import com.gbldev.backend.converter.PessoaConverter;
 import com.gbldev.backend.dao.PessoaRepository;
 import com.gbldev.backend.dto.PessoaDTO;
@@ -16,6 +12,10 @@ import com.gbldev.backend.exception.PessoaException;
 import com.gbldev.backend.exception.PessoaExceptionMessages;
 import com.gbldev.backend.utils.PessoaMessages;
 import com.gbldev.backend.validator.PessoaValidator;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
 
 @Service
 public class PessoaService {
@@ -66,10 +66,7 @@ public class PessoaService {
 
 	public List<PessoaDTO> listarPessoas() {
 		final List<Pessoa> all = this.pessoaRepository.findAll();
-		return all
-				.stream()
-				.map(PessoaConverter::fromEntityToDto)
-				.toList();
+		return all.stream().map(PessoaConverter::fromEntityToDto).toList();
 	}
 
 }
