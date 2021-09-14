@@ -1,5 +1,6 @@
 package com.gbldev.backend.dto;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.gbldev.backend.enums.Sexo;
@@ -33,5 +34,18 @@ public class PessoaDTO {
 
 	@Schema(name = "nacionalidade", description = "Nacionalidade", example = "Brasileiro")
 	private String nacionalidade;
+
+	public String toJson() {
+		final SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+		return new StringBuilder().append("{")
+				.append("\"cpf\": \"").append(this.getCpf()).append("\",")
+				.append("\"nome\": \"").append(this.getNome()).append("\",")
+				.append("\"sexo\": \"").append(this.getSexo()).append("\",")
+				.append("\"email\": \"").append(this.getEmail()).append("\",")
+				.append("\"dataNascimento\": \"").append(format1.format(this.getDataNascimento())).append("\",")
+				.append("\"naturalidade\": \"").append(this.getNaturalidade()).append("\",")
+				.append("\"nacionalidade\": \"").append(this.getNacionalidade()).append("\"")
+				.append("}").toString();
+	}
 }
 

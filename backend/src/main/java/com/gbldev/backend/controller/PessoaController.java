@@ -82,6 +82,8 @@ public class PessoaController {
 			return ResponseEntity.status(HttpStatus.CREATED).body(this.pessoaService.cadastro(pessoaDTO));
 		} catch (final ResponseStatusException exception) {
 			return ResponseEntity.status(exception.getStatus()).body(exception.getMessage());
+		} catch (final Exception exception) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exception.getMessage());
 		}
 	}
 
@@ -109,6 +111,8 @@ public class PessoaController {
 			return ResponseEntity.ok(this.pessoaService.atualizar(pessoaDTO));
 		} catch (final ResponseStatusException exception) {
 			return ResponseEntity.status(exception.getStatus()).body(exception.getMessage());
+		} catch (final Exception exception) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exception.getMessage());
 		}
 	}
 
@@ -135,6 +139,8 @@ public class PessoaController {
 			return ResponseEntity.ok(this.pessoaService.deletar(cpf));
 		} catch (final ResponseStatusException exception) {
 			return ResponseEntity.status(exception.getStatus()).body(exception.getMessage());
+		} catch (final Exception exception) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exception.getMessage());
 		}
 	}
 }
