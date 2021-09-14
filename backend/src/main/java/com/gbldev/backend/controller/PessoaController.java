@@ -46,7 +46,7 @@ public class PessoaController {
 	 * @return Pessoas cadastradas {@link List<PessoaDTO>}
 	 */
 	@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE })
-	@Operation(summary = "Endpoint que lista as pessoas.", security = @SecurityRequirement(name = "basic"))
+	@Operation(summary = "Endpoint que lista as pessoas.", security = @SecurityRequirement(name = "basicAuth"))
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK", content = @Content(array = @ArraySchema(schema = @Schema(implementation = PessoaDTO.class)))),
 			@ApiResponse(responseCode = "502", description = "Erro de gateway", content = @Content(schema = @Schema(implementation = ResponseStatusException.class)))
@@ -66,7 +66,7 @@ public class PessoaController {
 	 * @return a pessoa criada, convertido em {@link String}.
 	 */
 	@PostMapping(produces = { MediaType.TEXT_PLAIN_VALUE }, consumes = { MediaType.APPLICATION_JSON_VALUE })
-	@Operation(summary = "Endpoint que cadastra pessoa.", security = @SecurityRequirement(name = "basic"))
+	@Operation(summary = "Endpoint que cadastra pessoa.", security = @SecurityRequirement(name = "basicAuth"))
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "201", description = "Criado", content = @Content(schema = @Schema(implementation = String.class, example = PessoaMessages.CADASTRO_SUCESSO))),
 			@ApiResponse(responseCode = "406", description = "Problema na criacão", content = @Content(schema = @Schema(implementation = PessoaException.class))),
@@ -92,7 +92,7 @@ public class PessoaController {
 	 * @return a notificação criada, convertido em {@link String}.
 	 */
 	@PutMapping(consumes = { MediaType.APPLICATION_JSON_VALUE })
-	@Operation(summary = "Endpoint que atualiza pessoa.", security = @SecurityRequirement(name = "basic"))
+	@Operation(summary = "Endpoint que atualiza pessoa.", security = @SecurityRequirement(name = "basicAuth"))
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(type = "string",
 					example = PessoaMessages.ATUALIZADO_SUCESSO))),
@@ -119,7 +119,7 @@ public class PessoaController {
 	 * @return a notificação criada, convertido em {@link String}.
 	 */
 	@DeleteMapping(value = "{cpf}", produces = { MediaType.TEXT_PLAIN_VALUE })
-	@Operation(summary = "Endpoint que remove a pessoa.", security = @SecurityRequirement(name = "basic"))
+	@Operation(summary = "Endpoint que remove a pessoa.", security = @SecurityRequirement(name = "basicAuth"))
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(type = "string",
 					example = PessoaMessages.DELETADO_SUCESSO))),

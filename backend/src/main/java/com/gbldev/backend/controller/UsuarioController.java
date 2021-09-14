@@ -41,13 +41,16 @@ public class UsuarioController {
 	 * @return o usuário criada, convertido em {@link String}.
 	 */
 	@PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE })
-	@Operation(summary = "Endpoint que cadastra usuário.", security = @SecurityRequirement(name = "basic"))
+	@Operation(summary = "Endpoint que cadastra usuário.", security = @SecurityRequirement(name = "basicAuth"))
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "201", description = "Criado", content = @Content(schema = @Schema(type = "string"))),
 			@ApiResponse(responseCode = "406", description = "Problema na criacão", content = @Content(schema = @Schema(implementation = ResponseStatusException.class))),
 			@ApiResponse(responseCode = "502", description = "Erro de gateway", content = @Content(schema = @Schema(implementation = ResponseStatusException.class))) })
 	public ResponseEntity<String> cadastrarUsuario(
-			@Parameter(description = "informações do usuário.", schema = @Schema(implementation = UsuarioDTO.class)) @Valid @RequestBody final UsuarioDTO usuarioDTO)
+			@Parameter(description = "informações do usuário.", schema = @Schema(implementation = UsuarioDTO.class))
+			@Valid
+			@RequestBody
+			final UsuarioDTO usuarioDTO)
 			throws PessoaException {
 		try {
 			return ResponseEntity.status(HttpStatus.CREATED).body(this.usuarioService.cadastro(usuarioDTO));
@@ -69,7 +72,10 @@ public class UsuarioController {
 			@ApiResponse(responseCode = "404", description = "Problema na criacão", content = @Content(schema = @Schema(implementation = ResponseStatusException.class))),
 			@ApiResponse(responseCode = "502", description = "Erro de gateway", content = @Content(schema = @Schema(implementation = ResponseStatusException.class))) })
 	public ResponseEntity<Object> logarUsuario(
-			@Parameter(description = "informações do login do usuário.", schema = @Schema(implementation = LoginDTO.class)) @Valid @RequestBody final LoginDTO loginDTO) {
+			@Parameter(description = "informações do login do usuário.", schema = @Schema(implementation = LoginDTO.class))
+			@Valid
+			@RequestBody
+			final LoginDTO loginDTO) {
 		try {
 			return ResponseEntity.ok(this.usuarioService.logar(loginDTO));
 		} catch (final ResponseStatusException exception) {

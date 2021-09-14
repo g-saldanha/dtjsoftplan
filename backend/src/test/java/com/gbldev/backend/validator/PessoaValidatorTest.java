@@ -1,7 +1,6 @@
 package com.gbldev.backend.validator;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Objects;
 
 import org.junit.jupiter.api.Assertions;
@@ -31,6 +30,12 @@ class PessoaValidatorTest {
 				.nacionalidade("BRASILEIRO")
 				.naturalidade("IMAGINOLANDIA")
 				.build();
+	}
+
+	@Test
+	@DisplayName("Deve validar pessoa")
+	void validar() {
+		Assertions.assertDoesNotThrow(() -> PessoaValidator.validarDados(this.pessoaDTOTeste));
 	}
 
 	@Test
@@ -66,9 +71,11 @@ class PessoaValidatorTest {
 	}
 
 	@Test
-	@DisplayName("Não deve validar Data de nascimento menor que 10 anos")
+	@DisplayName("Não deve validar Data de nascimento maior que hoje")
 	void cadastroComDataDeNascimentoMenor() {
-		this.pessoaDTOTeste.setDataNascimento(new Date());
+		final Calendar instance = Calendar.getInstance();
+		instance.add(Calendar.DATE, 1);
+		this.pessoaDTOTeste.setDataNascimento(instance.getTime());
 		final var pessoaException = Assertions.assertThrows(PessoaException.class, () -> PessoaValidator.validarDados(this.pessoaDTOTeste));
 		Assertions.assertTrue(Objects.requireNonNull(pessoaException.getMessage()).contains(PessoaExceptionMessages.DATA_NASCIMENTO_INVALIDA));
 	}
